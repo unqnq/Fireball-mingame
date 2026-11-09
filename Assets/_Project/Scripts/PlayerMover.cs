@@ -20,6 +20,8 @@ public class PlayerMover : MonoBehaviour
     public bool IsJumping { get; private set; }
     public bool ReachedEnd { get; private set; }
     public bool InPortal { get; private set; }
+    // true only when the ball is waiting and the path in front is blocked
+    public bool IsBlocked { get; private set; }
 
     public event Action EnteredPortal;
 
@@ -33,6 +35,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
+        IsBlocked = false;
         if (IsJumping || InPortal) return;
 
         if (ReachedEnd)
@@ -44,7 +47,8 @@ public class PlayerMover : MonoBehaviour
         if (shooter.IsBusy) return;
 
         float step = Mathf.Min(config.jumpDistance, FreeDistance());
-        if (step < config.minJumpDistance && DistanceToEnd() > config.minJumpDistance) return; // path is blocked
+        IsBlocked = step < config.minJumpDistance && DistanceToEnd() > config.minJumpDistance;
+        if (IsBlocked) return;
 
         StartCoroutine(Jump(step));
     }

@@ -50,9 +50,9 @@ public class PlayerShooter : MonoBehaviour
         UpdateChargePosition();
     }
 
-    private bool CanShoot()
+    public bool CanShoot()
     {
-        return player.Size > config.minSize;
+        return player.Size > config.minSize + 0.01f; // small gap for float error
     }
 
     private void Release()
