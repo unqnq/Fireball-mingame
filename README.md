@@ -2,7 +2,7 @@
 
 A small mobile game prototype. You are a fireball. Shoot fire to burn the bushes, clear the path and jump into the magic portal behind the door.
 
-- **Gameplay video (YouTube):** _link_
+- **Gameplay video (YouTube):** [_link_](https://youtube.com/shorts/m3u3-68QrTE)
 - **Unity version:** 6000.3.22f1 (Unity 6.3 LTS), URP, new Input System
 
 ## How to play
