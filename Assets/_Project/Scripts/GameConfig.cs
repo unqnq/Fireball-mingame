@@ -7,7 +7,7 @@ public class GameConfig : ScriptableObject
     [Header("Player")]
     [Tooltip("Start diameter of the player ball.")]
     public float startSize = 2f;
-    [Tooltip("If the ball gets smaller than this - game over.")]
+    [Tooltip("The ball can't get smaller than this, shooting is blocked at this size.")]
     public float minSize = 0.6f;
 
     [Header("Shot")]
@@ -18,6 +18,16 @@ public class GameConfig : ScriptableObject
     public float infectionRadius = 1.5f;
     [Tooltip("How fast infection goes from the hit point (units per second).")]
     public float infectionSpreadSpeed = 6f;
+
+    [Header("Jumps")]
+    [Tooltip("Max length of one jump.")]
+    public float jumpDistance = 1.5f;
+    [Tooltip("Shorter free space than this = path is blocked.")]
+    public float minJumpDistance = 0.3f;
+    public float jumpHeight = 0.8f;
+    public float jumpDuration = 0.3f;
+    [Tooltip("The ball stops this far before the door.")]
+    public float doorStopDistance = 1.5f;
 
     [Header("Path")]
     [Tooltip("Path width = ball size * this value.")]

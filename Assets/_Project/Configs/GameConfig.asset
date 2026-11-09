@@ -18,6 +18,11 @@ MonoBehaviour:
   projectileSpeed: 10
   infectionRadius: 1.5
   infectionSpreadSpeed: 6
+  jumpDistance: 1.5
+  minJumpDistance: 0.3
+  jumpHeight: 0.8
+  jumpDuration: 0.3
+  doorStopDistance: 1.5
   pathWidthMultiplier: 1.3
   obstaclePrefab: {fileID: 101, guid: 4424a229828147f49d96ddea8562096f, type: 3}
   obstacleSize: 1.9

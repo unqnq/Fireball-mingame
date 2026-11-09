@@ -14,6 +14,8 @@ public class PlayerShooter : MonoBehaviour
     private Projectile flying;
 
     public bool IsCharging => charging != null;
+    // charging or a shot is still flying
+    public bool IsBusy => charging != null || flying != null;
 
     private void Update()
     {
@@ -22,8 +24,8 @@ public class PlayerShooter : MonoBehaviour
 
         if (charging == null)
         {
-            // one shot at a time
-            if (flying == null && pointer.press.wasPressedThisFrame) StartCharge();
+            // one shot at a time, and no shots when the ball is already at min size
+            if (flying == null && CanShoot() && pointer.press.wasPressedThisFrame) StartCharge();
             return;
         }
 
@@ -40,19 +42,28 @@ public class PlayerShooter : MonoBehaviour
 
     private void Charge(float deltaTime)
     {
-        // the longer you hold, the bigger the shot
-        float amount = Mathf.Min(config.chargeSpeed * deltaTime, player.Size);
+        // the longer you hold, the bigger the shot; the ball never goes below min size
+        float amount = Mathf.Min(config.chargeSpeed * deltaTime, player.Size - config.minSize);
+        if (amount <= 0f) return;
         player.SetSize(player.Size - amount);
         charging.SetSize(charging.Size + amount);
         UpdateChargePosition();
+    }
+
+    private bool CanShoot()
+    {
+        return player.Size > config.minSize;
     }
 
     private void Release()
     {
         Vector3 direction = DirectionToTarget();
         float distance = Vector3.Distance(Flat(player.transform.position), Flat(target.position));
-        float radius = charging.Size * config.infectionRadius;
-        charging.Launch(direction, config.projectileSpeed, distance, radius, config.infectionSpreadSpeed);
+        // shot hits anything in the ball corridor, not only in front of its own small size
+        float hitRadius = Mathf.Max(charging.Size, player.Size) * 0.5f;
+        float castBack = (player.Size + charging.Size) * 0.5f; // from shot centre back to ball centre
+        float infectionRadius = charging.Size * config.infectionRadius;
+        charging.Launch(direction, config.projectileSpeed, distance, hitRadius, castBack, infectionRadius, config.infectionSpreadSpeed);
 
         flying = charging;
         charging = null;

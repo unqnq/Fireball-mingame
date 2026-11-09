@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 1000008}
   - component: {fileID: 4000001}
   - component: {fileID: 4200001}
+  - component: {fileID: 4400001}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -73180,6 +73181,22 @@ MonoBehaviour:
   zoomSpeed: 1.5
   doorHeight: 5
   screenMargin: 0.05
+--- !u!114 &4400001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2133c5d8c1f4124ac23411a31fdcc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMover
+  config: {fileID: 11400000, guid: e54cc6c85cfd481ab2d5152709e19a19, type: 2}
+  ball: {fileID: 4000001}
+  shooter: {fileID: 4200001}
+  door: {fileID: 1000010}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
