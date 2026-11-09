@@ -29,6 +29,13 @@ public class GameConfig : ScriptableObject
     [Tooltip("The ball stops this far before the door.")]
     public float doorStopDistance = 1.5f;
 
+    [Header("Door")]
+    public float doorOpenDistance = 5f;
+    public float doorOpenTime = 0.9f;
+    [Tooltip("Door leaf turn angle, positive = to the player side.")]
+    public float doorOpenAngle = 100f;
+    public float portalJumpTime = 0.6f;
+
     [Header("Path")]
     [Tooltip("Path width = ball size * this value.")]
     public float pathWidthMultiplier = 1.3f;
