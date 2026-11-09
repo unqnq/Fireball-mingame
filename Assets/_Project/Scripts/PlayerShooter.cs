@@ -14,6 +14,7 @@ public class PlayerShooter : MonoBehaviour
     private Projectile flying;
 
     public bool IsCharging => charging != null;
+    public float ChargeSize => charging != null ? charging.Size : 0f;
     // charging or a shot is still flying
     public bool IsBusy => charging != null || flying != null;
 

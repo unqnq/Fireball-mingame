@@ -6,6 +6,7 @@ public class Obstacle : MonoBehaviour
 {
     [SerializeField] private Material infectedMaterial;
     [SerializeField] private float burnTime = 0.35f;
+    [SerializeField] private Material particleMaterial;
 
     private bool isInfected;
 
@@ -25,6 +26,7 @@ public class Obstacle : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         foreach (Renderer r in GetComponentsInChildren<Renderer>()) r.sharedMaterial = infectedMaterial;
+        BurnEffect.Play(transform.position, transform.lossyScale.x, particleMaterial);
 
         // small swell, then shrink to nothing
         Vector3 startScale = transform.localScale;

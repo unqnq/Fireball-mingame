@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Win()
     {
+        LevelProgress.CompleteCurrent();
         End(true, "The fireball reached the portal");
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 // groups (good for big shots) and single ones (need small shots).
 // Obstacles can go a bit outside the path (config.pathOverflow).
 // Obstacles are created in the editor: Tools > Level > Generate Obstacles.
+// After Restart / Next Level the scene makes a new random balanced layout (RegenerateOnLoad).
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField] private GameConfig config;
@@ -13,6 +14,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private Transform obstaclesRoot;
     [Tooltip("New obstacles will not be placed on top of these.")]
     [SerializeField] private Transform staticObstaclesRoot;
+
+    private const int MaxAttempts = 100;
+
+    // set before reloading the scene to get new obstacles
+    public static bool RegenerateOnLoad;
 
     public Transform ObstaclesRoot => obstaclesRoot;
     public GameObject ObstaclePrefab => config.obstaclePrefab;
@@ -27,6 +33,39 @@ public class LevelGenerator : MonoBehaviour
     private Vector3 forward;
     private Vector3 right;
     private float maxSide;
+
+    private void Awake()
+    {
+        if (!RegenerateOnLoad) return;
+        RegenerateOnLoad = false;
+
+        // SetActive(false) turns colliders off right now, Destroy happens at the end of the frame
+        foreach (Transform child in obstaclesRoot)
+        {
+            child.gameObject.SetActive(false);
+            Destroy(child.gameObject);
+        }
+
+        foreach (Pose pose in CreateBalancedLayout(System.Environment.TickCount, out _))
+        {
+            GameObject obstacle = Instantiate(config.obstaclePrefab, pose.position, pose.rotation, obstaclesRoot);
+            obstacle.transform.localScale = Vector3.one * config.obstacleSize;
+        }
+    }
+
+    // tries random layouts until one is balanced
+    public List<Pose> CreateBalancedLayout(int seed, out float requiredSize)
+    {
+        List<Pose> layout = null;
+        requiredSize = 0f;
+        for (int attempt = 0; attempt < MaxAttempts; attempt++)
+        {
+            layout = CreateLayout(seed + attempt);
+            requiredSize = EstimateRequiredSize(layout);
+            if (IsBalanced(requiredSize)) break;
+        }
+        return layout;
+    }
 
     public List<Pose> CreateLayout(int seed)
     {

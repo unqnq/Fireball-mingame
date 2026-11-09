@@ -196,3 +196,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle
   infectedMaterial: {fileID: 2100000, guid: 5b975c5d7adb4545a43686035bf5bec7, type: 2}
   burnTime: 0.35
+  particleMaterial: {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}

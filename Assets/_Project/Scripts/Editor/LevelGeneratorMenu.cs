@@ -7,7 +7,6 @@ using UnityEngine;
 public static class LevelGeneratorMenu
 {
     private const string UndoName = "Generate Obstacles";
-    private const int MaxAttempts = 100;
 
     [MenuItem("Tools/Level/Generate Obstacles")]
     private static void Generate()
@@ -20,16 +19,7 @@ public static class LevelGeneratorMenu
 
         Clear(generator.ObstaclesRoot);
 
-        // try random layouts until one is balanced
-        int seed = System.Environment.TickCount;
-        List<Pose> layout = null;
-        float need = 0f;
-        for (int attempt = 0; attempt < MaxAttempts; attempt++)
-        {
-            layout = generator.CreateLayout(seed + attempt);
-            need = generator.EstimateRequiredSize(layout);
-            if (generator.IsBalanced(need)) break;
-        }
+        List<Pose> layout = generator.CreateBalancedLayout(System.Environment.TickCount, out float need);
         foreach (Pose pose in layout)
         {
             var obstacle = (GameObject)PrefabUtility.InstantiatePrefab(generator.ObstaclePrefab, generator.ObstaclesRoot);
@@ -50,6 +40,20 @@ public static class LevelGeneratorMenu
         if (generator != null) LogBalance(generator, generator.EstimateRequiredSize());
     }
 
+    [MenuItem("Tools/Level/Clear Obstacles")]
+    private static void ClearMenu()
+    {
+        LevelGenerator generator = FindGenerator();
+        if (generator != null) Clear(generator.ObstaclesRoot);
+    }
+
+    [MenuItem("Tools/Level/Reset Level Progress")]
+    private static void ResetProgress()
+    {
+        LevelProgress.Reset();
+        Debug.Log("Level progress reset to 1.");
+    }
+
     private static void LogBalance(LevelGenerator generator, float need)
     {
         float available = generator.AvailableSize;
@@ -57,13 +61,6 @@ public static class LevelGeneratorMenu
         string text = $"Balance: need ~{need:0.00} size, ball has {available:0.00}, extra {margin:P0} (must be {generator.BalanceMargin:P0}).";
         if (generator.IsBalanced(need)) Debug.Log(text);
         else Debug.LogWarning(text + " Not balanced: generate again or change config.");
-    }
-
-    [MenuItem("Tools/Level/Clear Obstacles")]
-    private static void ClearMenu()
-    {
-        LevelGenerator generator = FindGenerator();
-        if (generator != null) Clear(generator.ObstaclesRoot);
     }
 
     private static void Clear(Transform root)
