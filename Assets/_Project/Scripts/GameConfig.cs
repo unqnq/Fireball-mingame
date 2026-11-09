@@ -11,11 +11,13 @@ public class GameConfig : ScriptableObject
     public float minSize = 0.6f;
 
     [Header("Shot")]
+    [Tooltip("Every shot takes at least this size from the ball, even a short tap.")]
+    public float minShotSize = 0.1f;
     [Tooltip("How fast size goes from the ball to the shot while holding (units per second).")]
     public float chargeSpeed = 0.8f;
     public float projectileSpeed = 10f;
     [Tooltip("Infection radius = shot size * this value.")]
-    public float infectionRadius = 1.5f;
+    public float infectionRadius = 2f;
     [Tooltip("How fast infection goes from the hit point (units per second).")]
     public float infectionSpreadSpeed = 6f;
 
@@ -39,6 +41,10 @@ public class GameConfig : ScriptableObject
     [Header("Path")]
     [Tooltip("Path width = ball size * this value.")]
     public float pathWidthMultiplier = 1.3f;
+
+    [Header("Balance")]
+    [Tooltip("Start size must be enough to clear the path with this extra (0.2 = 20%).")]
+    public float balanceMargin = 0.2f;
 
     [Header("Obstacles")]
     public GameObject obstaclePrefab;

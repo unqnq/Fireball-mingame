@@ -18,6 +18,10 @@ public class LevelGenerator : MonoBehaviour
     public GameObject ObstaclePrefab => config.obstaclePrefab;
     public float ObstacleSize => config.obstacleSize;
 
+    // size the ball can spend on shots
+    public float AvailableSize => config.startSize - config.minSize;
+    public float BalanceMargin => config.balanceMargin;
+
     private System.Random random;
     private Vector3 start;
     private Vector3 forward;
@@ -28,16 +32,7 @@ public class LevelGenerator : MonoBehaviour
     {
         random = new System.Random(seed);
         var poses = new List<Pose>();
-        // existing obstacles: position + diameter
-        var blocked = new List<Vector4>();
-        if (staticObstaclesRoot != null)
-        {
-            foreach (Transform child in staticObstaclesRoot)
-            {
-                Vector3 p = child.position;
-                blocked.Add(new Vector4(p.x, p.y, p.z, child.lossyScale.x));
-            }
-        }
+        List<Vector4> blocked = Collect(staticObstaclesRoot);
 
         start = Flat(player.position);
         Vector3 end = Flat(door.position);
@@ -94,6 +89,46 @@ public class LevelGenerator : MonoBehaviour
         }
 
         poses.Add(new Pose(position, Quaternion.Euler(0f, Range(0f, 360f), 0f)));
+    }
+
+    // --- balance ---
+
+    public bool IsBalanced(float requiredSize)
+    {
+        return requiredSize * (1f + config.balanceMargin) <= AvailableSize;
+    }
+
+    // for a new layout: static obstacles + the layout
+    public float EstimateRequiredSize(List<Pose> layout)
+    {
+        List<Vector4> all = Collect(staticObstaclesRoot);
+        foreach (Pose pose in layout)
+        {
+            Vector3 p = pose.position;
+            all.Add(new Vector4(p.x, p.y, p.z, config.obstacleSize));
+        }
+        return BalanceEstimator.RequiredSize(config, player.position, door.position, all);
+    }
+
+    // for obstacles that are in the scene now
+    public float EstimateRequiredSize()
+    {
+        List<Vector4> all = Collect(staticObstaclesRoot);
+        all.AddRange(Collect(obstaclesRoot));
+        return BalanceEstimator.RequiredSize(config, player.position, door.position, all);
+    }
+
+    // position + diameter of every child obstacle
+    private static List<Vector4> Collect(Transform root)
+    {
+        var list = new List<Vector4>();
+        if (root == null) return list;
+        foreach (Transform child in root)
+        {
+            Vector3 p = child.position;
+            list.Add(new Vector4(p.x, p.y, p.z, child.lossyScale.x));
+        }
+        return list;
     }
 
     private static bool TooClose(Vector3 a, Vector3 b, float distance)

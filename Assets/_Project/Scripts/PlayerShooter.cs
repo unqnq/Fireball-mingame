@@ -37,6 +37,11 @@ public class PlayerShooter : MonoBehaviour
     {
         charging = Instantiate(projectilePrefab);
         charging.SetSize(0f);
+
+        // a tap always costs at least minShotSize
+        float amount = Mathf.Min(config.minShotSize, player.Size - config.minSize);
+        player.SetSize(player.Size - amount);
+        charging.SetSize(amount);
         UpdateChargePosition();
     }
 
