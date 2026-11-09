@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3cdc865434147c5ad3164ba43fba3d1, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  startSize: 1.5
+  minSize: 0.3
+  pathWidthMultiplier: 1.3
+  obstaclePrefab: {fileID: 101, guid: 4424a229828147f49d96ddea8562096f, type: 3}
+  obstacleSize: 1.9
+  pathOverflow: 0.5
+  startOffset: 3
+  endOffset: 3
+  clusterCount: 8
+  obstaclesPerCluster: {x: 4, y: 7}
+  clusterRadius: 1.4
+  singleCount: 8
