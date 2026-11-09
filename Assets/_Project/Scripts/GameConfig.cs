@@ -6,9 +6,18 @@ public class GameConfig : ScriptableObject
 {
     [Header("Player")]
     [Tooltip("Start diameter of the player ball.")]
-    public float startSize = 1.5f;
+    public float startSize = 2f;
     [Tooltip("If the ball gets smaller than this - game over.")]
-    public float minSize = 0.3f;
+    public float minSize = 0.6f;
+
+    [Header("Shot")]
+    [Tooltip("How fast size goes from the ball to the shot while holding (units per second).")]
+    public float chargeSpeed = 0.8f;
+    public float projectileSpeed = 10f;
+    [Tooltip("Infection radius = shot size * this value.")]
+    public float infectionRadius = 1.5f;
+    [Tooltip("How fast infection goes from the hit point (units per second).")]
+    public float infectionSpreadSpeed = 6f;
 
     [Header("Path")]
     [Tooltip("Path width = ball size * this value.")]

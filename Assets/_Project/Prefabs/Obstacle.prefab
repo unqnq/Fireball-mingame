@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 102}
   - component: {fileID: 999}
+  - component: {fileID: 998}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Untagged
@@ -179,3 +180,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd24be650e544caa36475f0ecde3f26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Obstacle
+  infectedMaterial: {fileID: 2100000, guid: 5b975c5d7adb4545a43686035bf5bec7, type: 2}
+  burnTime: 0.35

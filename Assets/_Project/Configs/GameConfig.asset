@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cdc865434147c5ad3164ba43fba3d1, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  startSize: 1.5
-  minSize: 0.3
+  startSize: 2
+  minSize: 0.6
+  chargeSpeed: 0.8
+  projectileSpeed: 10
+  infectionRadius: 1.5
+  infectionSpreadSpeed: 6
   pathWidthMultiplier: 1.3
   obstaclePrefab: {fileID: 101, guid: 4424a229828147f49d96ddea8562096f, type: 3}
   obstacleSize: 1.9
